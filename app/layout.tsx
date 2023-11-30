@@ -1,6 +1,10 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import '@radix-ui/themes/styles.css';
+import { Box, Flex, Theme } from '@radix-ui/themes'
+import Navbar from './components/navbar'
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,7 +20,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Theme appearance="dark" panelBackground="translucent">
+          <Flex direction="column" style={{ height: '100vh' }}>
+            <Box height="max-content" width="100%" py="4" px="4">
+              <Navbar />
+            </Box>
+            <Box style={{
+              flexGrow: 1,
+              display: 'flex'
+            }}>
+              {children}
+            </Box>
+          </Flex>
+          <Toaster />
+        </Theme>
+      </body>
     </html>
   )
 }

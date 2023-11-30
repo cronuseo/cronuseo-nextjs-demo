@@ -1,0 +1,27 @@
+{
+  "issues": [
+    {
+      "id": 1,
+      "title": "Errors when interacting with roles - database postgreSQL",
+      "description": "Errors when interacting with roles - database postgreSQL. Continuously getting something went wrong errors in the UI when interacting with different flows under ROles such as View permissions of the Administrator role",
+      "status": "open"
+    },
+    {
+      "id": 2,
+      "title": "Empty second step when there are no secondary userstore created on the wizard",
+      "description": "Navigate to attributes section and click on New attribute and enter an attribute name follow to next step. And you will get the above blank screen as the second step. This confuses user on what has missed or why it's not loaded.",
+      "status": "closed"
+    },
+    {
+      "id": 3,
+      "title": "Unable to add users to a secondary userstore - no option in the UI",
+      "description": "t's expected to use the hostname configured in internal_hostname for every internal communication. Even though this was fixed in product-is, after the unification process, all the fixes have been lost. Therefore, all the related places need to be fixed again with the usage of internal_hostname when invoking internal API calls in",
+      "status": "open"
+    },
+    {
+      "title": "sdf",
+      "description": "sdfg",
+      "id": 4
+    }
+  ]
+}
