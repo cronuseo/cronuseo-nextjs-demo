@@ -28,7 +28,13 @@ const Issues = async () => {
         resource: "issues",
         action: "POST",
       }
-    const allowPOST = await Check(checkReq)
+    const allowPOST = await Check(checkPOSTReq)
+
+    const checkDELETEReq : CheckRequest = {
+        resource: "issues",
+        action: "POST",
+      }
+    const allowDELETE = await Check(checkDELETEReq)
 
     var issues;
     var permit;
@@ -41,7 +47,18 @@ const Issues = async () => {
         issues = []
         permit = {
             allow: false,
-            message: "Your not permit to view issues"
+            message: "You are not permitted to view issues"
+        }
+    }
+    var deletePermit;
+    if (allowDELETE) {
+        deletePermit = {
+            allow: true
+        }
+    } else {
+        deletePermit = {
+            allow: false,
+            message: "You are not permitted to delete issues"
         }
     }
     return (
@@ -62,7 +79,7 @@ const Issues = async () => {
                 </Box>) : null}
 
                 <Box>
-                    <IssueList issues={issues} permit={permit}/>
+                    <IssueList issues={issues} getPermit={permit} deletePermit={deletePermit}/>
                 </Box>
             </Flex>
         </div>

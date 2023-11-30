@@ -18,30 +18,31 @@ export type Permit = {
 
 type Props = {
     issues: Issue[],
-    permit: Permit
+    getPermit: Permit,
+    deletePermit: Permit
 }
 
-const IssueList = ({issues, permit}: Props) => {
+const IssueList = ({issues, getPermit, deletePermit}: Props) => {
 
     const router = useRouter()
     useEffect(() => {
-        if (!permit.allow) {
+        if (!getPermit.allow) {
             setTimeout(() => {
-                toast.error(permit.message)
+                toast.error(getPermit.message)
               }, 100)
             
             router.replace('/')
         }
-      }, [permit]);
+      }, [getPermit]);
 
     return (
         <Box width="100%" height="max-content" px="9">
             <Flex direction="column" gap="3">
                 {issues?.map((issue: Issue) => (
-                    <IssueCard issue={issue} key={issue.id}/>
+                    <IssueCard issue={issue} permit={deletePermit} key={issue.id}/>
                 ))}
             </Flex>
-            {issues?.length === 0 && permit.allow && (
+            {issues?.length === 0 && getPermit.allow && (
                 <Callout.Root>
                 <Callout.Text>
                   There are no issues!

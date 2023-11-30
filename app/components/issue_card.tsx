@@ -1,12 +1,14 @@
 "use client"
 import { Card, Flex, Avatar, Box, Text, Button, DropdownMenu } from '@radix-ui/themes'
-import React from 'react'
-import { Issue } from '../issues/issue_list'
+import React, { useEffect } from 'react'
+import { Issue, Permit } from '../issues/issue_list'
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 type Props = {
     issue: Issue,
+    permit: Permit
 }
 
 const deleteIssue = async (id: string) => {
@@ -14,13 +16,21 @@ const deleteIssue = async (id: string) => {
     return res.json()
 }
 
-const IssueCard = ({ issue }: Props) => {
+const IssueCard = ({ issue, permit }: Props) => {
 
     const router = useRouter()
     const handleDelete = async () => {
-        await deleteIssue(issue.id.toString())
-        router.push('/issues')
-        router.refresh()
+        if (!permit.allow) {
+            setTimeout(() => {
+                toast.error(permit.message)
+              }, 100)
+            
+            router.replace('/issues')
+        } else {
+            await deleteIssue(issue.id.toString())
+            router.push('/issues')
+            router.refresh()
+        }
     }
     const handleEdit = async () => {
         router.push(`/issues/update/${issue.id.toString()}`)

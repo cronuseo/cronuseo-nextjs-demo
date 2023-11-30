@@ -1,7 +1,13 @@
 "use client"
 import { Box, Button, Flex, Text, TextArea, TextField } from '@radix-ui/themes'
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Permit } from '../issue_list';
+import { toast } from 'sonner';
+
+type Props = {
+    permit: Permit
+}
 
 const createIssue = async (title: string, description: string) => {
 
@@ -14,7 +20,18 @@ const createIssue = async (title: string, description: string) => {
     return res.json()
 }
 
-const CreateForm = () => {
+const CreateForm = ({permit}: Props) => {
+    
+    useEffect(() => {
+        if (!permit.allow) {
+            setTimeout(() => {
+                toast.error(permit.message)
+              }, 100)
+            
+            router.replace('/')
+        }
+      }, [permit]);
+      
     const router = useRouter()
     const [title, setTitle] = React.useState("");
     const [description, setDescription] = React.useState("");
