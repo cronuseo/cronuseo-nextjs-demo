@@ -1,4 +1,5 @@
 import Auth0Provider from "next-auth/providers/auth0";
+import { list } from "postcss";
 export const options = {
   providers: [
     Auth0Provider({
@@ -10,9 +11,14 @@ export const options = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, account, profile, email, credentials }: any) {
+      var roles: string[] = []
+      if (profile) {
+        roles = profile['cronuseo/roles']? profile['cronuseo/roles'] as string[] : []
+      }
       const body = {
         identifier: user.id,
         username: user.email,
+        roles: roles
       };
 
       try {
