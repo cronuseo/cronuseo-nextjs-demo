@@ -20,7 +20,7 @@ const Check = async (checkReq: CheckRequest) : Promise<boolean> => {
     body: JSON.stringify(checkReq),
   });
   const allow = await response.json();
-  return allow
+  return allow.allowed
 };
 
 export default Check;
