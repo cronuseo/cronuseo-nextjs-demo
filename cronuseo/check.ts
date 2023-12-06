@@ -1,6 +1,7 @@
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
-
+import { Cronuseo } from "cronuseo";
+import { ICheckRequest } from "cronuseo/build/main/check/check";
 export type CheckRequest = {
   identifier?: string;
   resource: string;
@@ -9,18 +10,17 @@ export type CheckRequest = {
 
 const Check = async (checkReq: CheckRequest) : Promise<boolean> => {
     
-  const session = await getServerSession(options);
-  checkReq.identifier = session.user.id
-  const response = await fetch("http://localhost:8081/api/v1/o/super/check", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      API_KEY: process.env.CRONUSEO_API_KEY!,
-    },
-    body: JSON.stringify(checkReq),
+  const cronuseo = new Cronuseo({
+    checkUrl: "http://localhost:8081",
+    apiKey: process.env.CRONUSEO_API_KEY!,
   });
-  const allow = await response.json();
-  return allow.allowed
+  const session = await getServerSession(options);
+  const checkRequest: ICheckRequest = {
+    identifier: session.user.id,
+    resource: checkReq.resource,
+    action: checkReq.action
+  }
+  return await cronuseo.check(checkRequest)
 };
 
 export default Check;

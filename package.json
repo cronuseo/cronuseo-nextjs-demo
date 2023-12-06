@@ -12,6 +12,7 @@
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/themes": "^2.0.1",
+    "cronuseo": "^1.0.5",
     "next": "14.0.3",
     "next-auth": "^4.24.5",
     "react": "^18",
